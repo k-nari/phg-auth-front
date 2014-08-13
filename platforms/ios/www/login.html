@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.custom.structure.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile.custom.theme.css" />
+        <title>LOGIN</title>
+    </head>
+    <body>
+        <div class="" style="margin-top:100px;">
+            <h1>ログイン</h1>
+            <form>
+                <input type="text" id="userid" name="userid">
+                
+                <input type="text" id="passwd" name="passwd">
+                
+                <input type="button" value="ログイン" class="login_btn">
+                <br>
+                <input type="button" value="アクション" class="action_btn">
+                <br>
+                <input type="button" value="ログアウト" class="logout_btn">
+            </form>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile.custom.js"></script>
+        <script type="text/javascript">
+                jQuery(function( $ ) {
+                       $(".login_btn").on("click",loginAction);
+                       $(".action_btn").on("click",doAction);
+                       $(".logout_btn").on("click",logoutAction);
+                });
+                function loginAction() {
+                    var search = {
+                        user_id : $("#userid").val(),
+                        passwd : $("#passwd").val()
+                    };
+                    $.ajax({
+                           type: 'POST',
+                           url: 'http://local.phg/auth/login',
+                           data: search,
+                           cache: false,
+                           success: function(data) {alert("ログインOK。"); },
+                           error: function() { alert("ログイン処理でエラーが発生。"); }
+                           });
+                }                       
+                function doAction() {
+                    $.ajax({
+                           type: 'POST',
+                           url: 'http://local.phg/auth/do_action',
+                           cache: false,
+                           success: function(data) {alert("アクション結果 = "+data); },
+                           error: function() { alert("アクション処理でエラーが発生。"); }
+                   });
+                }
+                function logoutAction() {
+                    $.ajax({
+                           type: 'POST',
+                           url: 'http://local.phg/auth/logout',
+                           cache: false,
+                           success: function(data) {alert("ログアウトOK"); },
+                           error: function() { alert("ログアウト処理でエラーが発生。"); }
+                   });
+                }
+        
+        </script>
+    </body>
+</html>
